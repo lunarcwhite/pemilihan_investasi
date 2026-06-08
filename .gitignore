@@ -1,0 +1,8 @@
+.env
+.planning/
+.agent/
+*/GEMINI.md
+prd.md
+node_modules/
+dist
+*.log
