@@ -434,9 +434,13 @@ const isSavingCriteria = ref(false)
 const loadData = async () => {
   if (!supabase) return
   try {
-    const { data: altData } = await supabase.from('alternatives').select('*').order('id')
-    const { data: scoreData } = await supabase.from('alternative_scores').select('*')
-    const { data: critData } = await supabase.from('criterias').select('*').order('id')
+    const { data: altData, error: altErr } = await supabase.from('alternatives').select('*').order('id')
+    const { data: scoreData, error: scoreErr } = await supabase.from('alternative_scores').select('*')
+    const { data: critData, error: critErr } = await supabase.from('criterias').select('*').order('id')
+
+    if (altErr || scoreErr || critErr) {
+      throw new Error(altErr?.message || scoreErr?.message || critErr?.message || 'Gagal mengambil data dari database')
+    }
 
     if (altData && scoreData) {
       alternatives.value = altData.map(alt => {
@@ -455,6 +459,7 @@ const loadData = async () => {
     }
   } catch (err) {
     console.error('Gagal mengambil data:', err)
+    triggerToast(`Gagal memuat data: ${err.message || err}`, 'error')
   }
 }
 
