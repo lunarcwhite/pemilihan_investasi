@@ -14,7 +14,7 @@
           v-model="formattedC1"
           @input="onC1Input"
           placeholder="Masukkan jumlah modal (cth: 1.000.000)"
-          class="w-full px-4 py-3 bg-dominant border border-secondary rounded-xl font-semibold text-lg text-text-primary focus:outline-hidden focus:border-accent focus:ring-2 focus:ring-accent/15 transition-all"
+          class="w-full pl-4 pr-18 py-3 bg-dominant border border-secondary rounded-xl font-semibold text-lg text-text-primary focus:outline-hidden focus:border-accent focus:ring-2 focus:ring-accent/15 transition-all"
         />
         <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-semibold text-text-primary/40">Rupiah</span>
       </div>

@@ -69,6 +69,40 @@
 
     <!-- Onboarding Modal -->
     <OnboardingModal />
+
+    <!-- Custom Confirm Reset History Modal -->
+    <div 
+      v-if="showConfirmModal" 
+      class="fixed inset-0 z-40 bg-black/40 flex items-center justify-center p-6 backdrop-blur-xs"
+    >
+      <div class="w-full max-w-md bg-white rounded-2xl shadow-xl border border-secondary p-8 flex flex-col gap-6 text-left">
+        <div class="flex items-center gap-3 text-red-600">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+          </svg>
+          <h3 class="text-lg font-bold">Hapus Riwayat</h3>
+        </div>
+
+        <p class="text-sm text-text-primary/70">
+          Apakah Anda yakin ingin menghapus seluruh riwayat simulasi Anda? Tindakan ini tidak dapat dibatalkan.
+        </p>
+
+        <div class="flex justify-end gap-3 border-t border-secondary pt-4">
+          <button 
+            @click="showConfirmModal = false" 
+            class="px-4 py-2 border border-secondary text-text-primary/80 rounded-xl text-sm font-bold hover:bg-dominant transition"
+          >
+            Batal
+          </button>
+          <button 
+            @click="executeResetHistory" 
+            class="px-4 py-2 bg-red-600 text-white rounded-xl text-sm font-bold shadow-md shadow-red-200 hover:bg-red-700 transition"
+          >
+            Hapus Semua
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -87,6 +121,7 @@ const selectedCompareIds = ref([])
 const history = ref([])
 const alternatives = ref([])
 const criterias = ref([])
+const showConfirmModal = ref(false)
 
 // Static fallback seed data
 const alternativesSeed = [
@@ -252,14 +287,16 @@ const loadHistoryRecord = (record) => {
 }
 
 const confirmResetHistory = () => {
-  const confirmMessage = "Hapus Riwayat: Apakah Anda yakin ingin menghapus seluruh riwayat simulasi Anda? Tindakan ini tidak dapat dibatalkan."
-  if (window.confirm(confirmMessage)) {
-    localStorage.removeItem('smartinvest_history')
-    history.value = []
-    hasCalculated.value = false
-    results.value = []
-    selectedCompareIds.value = []
-  }
+  showConfirmModal.value = true
+}
+
+const executeResetHistory = () => {
+  localStorage.removeItem('smartinvest_history')
+  history.value = []
+  hasCalculated.value = false
+  results.value = []
+  selectedCompareIds.value = []
+  showConfirmModal.value = false
 }
 
 const formatNumber = (val) => {
