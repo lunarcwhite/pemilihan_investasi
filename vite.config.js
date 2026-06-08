@@ -6,5 +6,6 @@ export default defineConfig({
   plugins: [
     vue(),
     tailwindcss()
-  ]
+  ],
+  envPrefix: ['VITE_', 'SUPABASE_']
 })
